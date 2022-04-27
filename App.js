@@ -1,13 +1,9 @@
 import React from "react";
-import HomeScreen from "./src/screens/HomeScreen";
+import RootNavigator from "./src/navigations/RootNavigator";
 import { StyleSheet, Text, View, Dimensions } from "react-native";
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <HomeScreen />
-    </View>
-  );
+  return <RootNavigator />;
 }
 
 const styles = StyleSheet.create({
