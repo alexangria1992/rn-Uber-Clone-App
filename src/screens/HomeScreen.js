@@ -148,7 +148,18 @@ const HomeScreen = () => {
 
         <Text style={styles.text4}>Around you</Text>
         <View style={{ alignItems: "center", justifyContent: "center" }}>
-          <MapView provider={PROVIDER_GOOGLE} style={styles.map}></MapView>
+          <MapView
+            provider={PROVIDER_GOOGLE}
+            style={styles.map}
+            provider={PROVIDER_GOOGLE}
+            style={styles.map}
+            customMapStyle={mapStyle}
+            showsUserLocation={true}
+            followsUserLocation={true}
+            rotateEnabled={true}
+            zoomEnabled={true}
+            toolbarEnabled={true}
+          ></MapView>
         </View>
       </ScrollView>
       <StatusBar style="light" backgroundColor="#2058c0" translucent={true} />
