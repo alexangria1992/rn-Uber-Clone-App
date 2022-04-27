@@ -7,7 +7,7 @@ import {
   Image,
   FlatList,
 } from "react-native";
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Icon } from "react-native-elements";
 import { colors, parameters } from "../global/styles";
 import { StatusBar } from "expo-status-bar";
@@ -15,9 +15,46 @@ import { filterData } from "../global/data";
 import { GOOGLE_MAPS_API_KEY } from "@env";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import { mapStyle } from "../global/mapStyle";
+import * as Location from "expo-location";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
+
 const HomeScreen = () => {
+  const [latlng, setLatLng] = useState({});
+
+  const checkPermission = async () => {
+    const hasPermission = await Location.requestForegroundPermissionsAsync();
+    if (hasPermission.status === "granted") {
+      const permission = await askPermission();
+      return permission;
+      return permission;
+    }
+    return true;
+  };
+
+  const askPermission = async () => {
+    const permission = await Location.requestForegroundPermissionsAsync();
+    return permission.status === "granted";
+  };
+
+  const getLocation = async () => {
+    try {
+      const { granted } = await Location.requestForegroundPermissionsAsync();
+      if (!granted) return;
+      const {
+        coords: { latitude, longitude },
+      } = await Location.getCurrentPositionAsync();
+      setLatLng({ latitude: latitude, longitude: longitude });
+    } catch (err) {}
+  };
+  const _map = useRef(1);
+
+  useEffect(() => {
+    checkPermission();
+    getLocation();
+    console.log(latlng);
+  }, []);
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
