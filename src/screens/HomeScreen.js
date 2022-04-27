@@ -12,6 +12,9 @@ import { Icon } from "react-native-elements";
 import { colors, parameters } from "../global/styles";
 import { StatusBar } from "expo-status-bar";
 import { filterData } from "../global/data";
+import { GOOGLE_MAPS_API_KEY } from "@env";
+import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
+import { mapStyle } from "../global/mapStyle";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const HomeScreen = () => {
@@ -144,6 +147,9 @@ const HomeScreen = () => {
         </View>
 
         <Text style={styles.text4}>Around you</Text>
+        <View style={{ alignItems: "center", justifyContent: "center" }}>
+          <MapView provider={PROVIDER_GOOGLE} style={styles.map}></MapView>
+        </View>
       </ScrollView>
       <StatusBar style="light" backgroundColor="#2058c0" translucent={true} />
     </View>
