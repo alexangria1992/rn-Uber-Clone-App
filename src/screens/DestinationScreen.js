@@ -1,3 +1,4 @@
+import React, { useRef } from "react";
 import {
   StyleSheet,
   Text,
@@ -5,42 +6,72 @@ import {
   Dimensions,
   TouchableOpacity,
 } from "react-native";
-import React from "react";
 import { colors, parameters } from "../global/styles";
+import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { Avatar, Icon } from "react-native-elements";
+import { GOOGLE_MAPS_API_KEY } from "@env";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
-const DestinationScreen = () => {
+const DestinationScreen = ({ navigation }) => {
+  const textInput1 = useRef(4);
+  const textInput2 = useRef(5);
+
   return (
-    <View>
-      <View style={styles.view1}>
-        <Icon
-          type="material-community"
-          name="arrow-left"
-          color={colors.grey1}
-          size={32}
-        />
-      </View>
-      <TouchableOpacity>
-        <View style={styles.view3}>
-          <Avatar
-            rounded
-            avatarStyle={{}}
-            size={30}
-            source={require("../../assets/blankProfilePic.jpg")}
-          />
-          <Text style={{ marginLeft: 5 }}>For Someone </Text>
+    <>
+      <View style={styles.view2}>
+        <View style={styles.view1}>
           <Icon
             type="material-community"
-            name="chevron-down"
+            name="arrow-left"
             color={colors.grey1}
-            size={26}
+            size={32}
+            onPress={() => navigation.goBack()}
           />
         </View>
-      </TouchableOpacity>
-    </View>
+        <TouchableOpacity>
+          <View style={{ top: 25, alignItems: "center" }}>
+            <View style={styles.view3}>
+              <Avatar
+                rounded
+                avatarStyle={{}}
+                size={30}
+                source={require("../../assets/blankProfilePic.jpg")}
+              />
+              <Text style={{ marginLeft: 5 }}>For Someone </Text>
+              <Icon
+                type="material-community"
+                name="chevron-down"
+                color={colors.grey1}
+                size={26}
+              />
+            </View>
+          </View>
+        </TouchableOpacity>
+      </View>
+
+      <GooglePlacesAutocomplete
+        nearbyPlacesApi="GooglePlacesSearch"
+        placeholder="Going to..."
+        listViewDisplayed="auto"
+        debounce={400}
+        currentLocation={true}
+        ref={textInput1}
+        minLength={2}
+        enablePoweredByContainer={false}
+        fetchDetails={true}
+        autoFocus={true}
+        styles={autoComplete}
+        query={{
+          key: GOOGLE_MAPS_API_KEY,
+          language: "en",
+        }}
+        onPress={(data, details = null) => {
+          console.log(details);
+        }}
+      />
+    </>
   );
 };
 
