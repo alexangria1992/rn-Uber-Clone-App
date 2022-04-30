@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useContext, useRef } from "react";
 import {
   StyleSheet,
   Text,
@@ -10,11 +10,12 @@ import { colors, parameters } from "../global/styles";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { Avatar, Icon } from "react-native-elements";
 import { GOOGLE_MAPS_API_KEY } from "@env";
-
+import { OriginContext } from "../contexts/contexts";
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
 const DestinationScreen = ({ navigation }) => {
+  const { dispatchOrigin } = useContext(OriginContext);
   const textInput1 = useRef(4);
   const textInput2 = useRef(5);
 
@@ -68,7 +69,17 @@ const DestinationScreen = ({ navigation }) => {
           language: "en",
         }}
         onPress={(data, details = null) => {
-          console.log(details);
+          dispatchOrigin({
+            type: "ADD_ORIGIN",
+            payload: {
+              latitude: details.geometry.location.lat,
+              longitude: details.geometry.location.lng,
+              address: details.formatted_address,
+              name: details.name,
+            },
+          });
+
+          navigation.goBack();
         }}
       />
     </>

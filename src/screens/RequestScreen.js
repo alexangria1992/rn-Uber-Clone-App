@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -10,11 +10,17 @@ import {
 import MapComponent from "../components/MapComponent";
 import { colors, parameters } from "../global/styles";
 import { Avatar, Icon } from "react-native-elements";
+import { OriginContext } from "../contexts/contexts";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
 export default function RequestScreen({ navigation }) {
+  const { origin, dispatchOrigin } = useContext(OriginContext);
+  const [userOrigin, setUserOrigin] = useState({
+    latitude: origin.latitude,
+    longitude: origin.longitude,
+  });
   return (
     <View style={styles.container}>
       <View style={styles.view1}>
@@ -77,7 +83,7 @@ export default function RequestScreen({ navigation }) {
           </View>
         </View>
       </View>
-      <MapComponent />
+      <MapComponent userOrigin={userOrigin} />
     </View>
   );
 }
