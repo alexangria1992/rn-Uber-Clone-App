@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -21,6 +21,14 @@ export default function RequestScreen({ navigation }) {
     latitude: origin.latitude,
     longitude: origin.longitude,
   });
+
+  useEffect(() => {
+    setUserOrigin({
+      latitude: origin.latitude,
+      longitude: origin.longitude,
+    });
+  }, [origin]);
+
   return (
     <View style={styles.container}>
       <View style={styles.view1}>
