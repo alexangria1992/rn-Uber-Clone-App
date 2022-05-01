@@ -10,16 +10,23 @@ import {
 import MapComponent from "../components/MapComponent";
 import { colors, parameters } from "../global/styles";
 import { Avatar, Icon } from "react-native-elements";
-import { OriginContext } from "../contexts/contexts";
+import { OriginContext, DestinationContext } from "../contexts/contexts";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
 export default function RequestScreen({ navigation }) {
   const { origin, dispatchOrigin } = useContext(OriginContext);
+
   const [userOrigin, setUserOrigin] = useState({
     latitude: origin.latitude,
     longitude: origin.longitude,
+  });
+
+  const { destination, dispatchDestination } = useContext(DestinationContext);
+  const [userDestination, setUserDestination] = useState({
+    latitude: destination.latitude,
+    longitude: destination.longitude,
   });
 
   useEffect(() => {
@@ -27,7 +34,11 @@ export default function RequestScreen({ navigation }) {
       latitude: origin.latitude,
       longitude: origin.longitude,
     });
-  }, [origin]);
+    setUserDestination({
+      latitude: destination.latitude,
+      longitude: destination.longitude,
+    });
+  }, [origin, destination]);
 
   return (
     <View style={styles.container}>
@@ -91,7 +102,7 @@ export default function RequestScreen({ navigation }) {
           </View>
         </View>
       </View>
-      <MapComponent userOrigin={userOrigin} />
+      <MapComponent userOrigin={userOrigin} userDestination={userDestination} />
     </View>
   );
 }
