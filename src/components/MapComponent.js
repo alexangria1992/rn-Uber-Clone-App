@@ -5,6 +5,27 @@ import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import { colors, parameters } from "../global/styles";
 
 export default class MapComponent extends Component {
+  constructor() {
+    super();
+    this.state = {};
+
+    this._map = React.createRef(35);
+  }
+
+  componentDidUpdate() {
+    setTimeout(() => {
+      if (this.props.userDestination.latitude !== null) {
+        this._map.current.fitToCoordinates(
+          [this.props.userOrigin, this.props.userDestination],
+          {
+            edgePadding: { top: 450, right: 50, left: 50, bottom: 350 },
+            animated: true,
+          }
+        );
+      }
+    }, 500);
+  }
+
   render() {
     return (
       <View>
@@ -12,6 +33,7 @@ export default class MapComponent extends Component {
           style={styles.map}
           provider={PROVIDER_GOOGLE}
           customMapStyle={mapStyle}
+          ref={this._map}
         >
           {this.props.userOrigin.latitude != null && (
             <MapView.Marker
